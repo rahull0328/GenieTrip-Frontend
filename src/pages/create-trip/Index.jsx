@@ -1,11 +1,11 @@
 import React from 'react'
 
-function CreateTrip() {
+function createTrip() {
   return (
     <div>
-      <h1>Hello</h1>
+      <h1>Create Trip</h1>
     </div>
   )
 }
 
-export default CreateTrip
+export default createTrip
