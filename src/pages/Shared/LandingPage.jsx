@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LuSparkles } from "react-icons/lu";
 import { APP_FEATURES } from "../../utils/data";
+import Login from "../Auth/Login"
+import Register from "../Auth/Register"
+import Modal from "../../components/Loader/Modal";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -12,7 +15,7 @@ const LandingPage = () => {
   const handleCTA = () => {};
   return (
     <>
-      <div className="w-full min-h-full bg-[#FFFCEF] pb-36">
+      <div className="w-full min-h-full bg-[#FFFCEF]">
         <div className="w-[500px] h-[500px] bg-amber-200/20 blur-[65px] absolute top-0 left-0" />
         <div className="container mx-auto px-4 pt-6 pb-[200px] relative z-10">
           {/* header */}
@@ -61,59 +64,88 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div className="w-full min-h-full relative z-10 mb-56">
+      <div className="w-full min-h-full relative z-10">
         <div>
           <section className="flex items-center justify-center -mt-36">
-            <img 
-                src="./hero_section_image.png" 
-                alt="Hero Image" 
-                className="w-[80vw] rounded-lg" 
+            <img
+              src="./hero_section_image.png"
+              alt="Hero Image"
+              className="w-[80vw] rounded-lg"
             />
           </section>
         </div>
 
         <div className="w-full min-h-full bg-[#FFFCEF] mt-10">
-            <div className="container mx-auto px-4 pt-10 pb-20">
-                <section className="mt-5">
-                    <h2 className="text-2xl font-medium text-center mb-12">
-                        Features That Makes You Shine
-                    </h2>
-                    <div className="flex flex-col items-center gap-8">
-                        {/* First 3 Cards */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
-                            {APP_FEATURES.slice( 0, 3).map((feature) => (
-                                <div
-                                    key={feature.id}
-                                    className="bg-[#FFFEF8] p-6 rounded-xl shadow-xs hover:shadow-lg shadow-amber-100 transition border border-amber-100"
-                                >
-                                    <h3 className="">{feature.title}</h3>
-                                    <p className="">{feature.description}</p>
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* remaining 2 cards */}
-                        <div>
-                            {APP_FEATURES.slice(2).map((feature) => (
-                                <div
-                                    key={feature.id}
-                                    className=""
-                                >
-                                    <h3 className="">{feature.title}</h3>
-                                    <p className="">{feature.description}</p>
-                                </div>
-                            ))}
-                        </div>
+          <div className="container mx-auto px-4 pt-10 pb-20">
+            <section className="mt-5">
+              <h2 className="text-2xl font-medium text-center mb-12">
+                Features That Makes You Shine
+              </h2>
+              <div className="flex flex-col items-center gap-8">
+                {/* First 3 Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+                  {APP_FEATURES.slice(0, 3).map((feature) => (
+                    <div
+                      key={feature.id}
+                      className="bg-[#FFFEF8] p-6 rounded-xl shadow-xs hover:shadow-lg shadow-amber-100 transition border border-amber-100"
+                    >
+                      <h3 className="text-base font-semibold mb-3">
+                        {feature.title}
+                      </h3>
+                      <p className="text-gray-600">{feature.description}</p>
                     </div>
-                </section>
-            </div>
+                  ))}
+                </div>
+
+                {/* remaining 2 cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {APP_FEATURES.slice(3).map((feature) => (
+                    <div
+                      key={feature.id}
+                      className="bg-[#FFFEF8] p-6 rounded-xl shadow-xs hover:shadow-lg shadow-amber-100 transition border border-amber-100"
+                    >
+                      <h3 className="text-base font-semibold mb-3">
+                        {feature.title}
+                      </h3>
+                      <p className="text-gray-600">{feature.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          </div>
         </div>
-        
+
         {/* made by line */}
-        <div className="">
-            
+        <div className="text-sm bg-gray-50 text-secondary text-center p-5 mt-5 ">
+          Made By{" "}
+          <a
+            href="https://github.com/rahull0328"
+            className="text-blue-400"
+            target="_blank"
+          >
+            Rahul Mehta
+          </a>
         </div>
       </div>
+
+      <Modal 
+        isOpen={openAuthModal}
+        onClose={() => {
+          setOpenAuthModal(false);
+          setCurrentPage("login");
+        }}
+        hideHeader
+      >
+        <div>
+          {currentPage === "login" && (
+            <Login setCurrentPage={setCurrentPage} />
+          )}
+          {currentPage === "register" && (
+            <Register setCurrentPage={setCurrentPage} />
+          )}
+        </div>
+      </Modal>
     </>
   );
 };
