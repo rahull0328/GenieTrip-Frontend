@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Input from '../../components/Input/Input'
+import ProfilePhotoSelector from '../../components/Input/ProfilePhotoSelector'
 
 const Register = ({setCurrentPage}) => {
 
@@ -8,7 +9,7 @@ const Register = ({setCurrentPage}) => {
   const [fullName, setFullName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-
+  
   const [error, setError] = useState(null)
 
   const navigate = useNavigate()
@@ -26,6 +27,9 @@ const Register = ({setCurrentPage}) => {
 
       <form onSubmit={handleRegister}>
         <div className='grid grid-cols-1 md:grid-cols-1 gap-2'>
+
+          <ProfilePhotoSelector image={profilePic} setImage={setProfilePic} />
+
           <Input 
             value={fullName}
             onChange={({target}) => setFullName(target.value)}
