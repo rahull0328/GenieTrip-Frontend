@@ -7,11 +7,12 @@ import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import LandingPage from './pages/Shared/LandingPage';
 import Dashboard from './pages/Home/Dashboard';
+import UserProvider from './context/userContext';
 
 function App() {
 
   return (
-    <>
+    <UserProvider>
       <div>
         <Router>
           <Routes>
@@ -33,7 +34,7 @@ function App() {
           }}
         />
       </div>
-    </>
+    </UserProvider>
   )
 }
 
