@@ -1,13 +1,73 @@
-import React from 'react'
-import DashboardLayout from '../../components/Layout/DashboardLayout'
-import toast from 'react-hot-toast'
+import React, { useEffect, useState } from "react";
+import DashboardLayout from "../../components/Layout/DashboardLayout";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { LuPlus } from "react-icons/lu";
+import axiosInstance from "../../utils/axios";
+import { API_PATHS } from "../../utils/apiPaths";
+import { CARD_BG } from "../../utils/data";
+import moment from "moment";
+import SummaryCard from "../../components/Cards/SummaryCard";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
+  const [openCreateModal, setOpenCreateModel] = useState(false);
+  const [session, setSession] = useState([]);
+
+  const [openDeleteAlert, setOpenDeleteAlert] = useState({
+    open: false,
+    data: null,
+  });
+
+  const fetchAllSessions = async () => {
+    try {
+      const response = await axiosInstance.get(API_PATHS.SESSION.GET_ALL);
+      setSession(response.data);
+    } catch (error) {
+      console.error("Error fetching session data: ", error);
+    }
+  };
+
+  const deleteSession = async (sessionData) => {};
+
+  useEffect(() => {
+    fetchAllSessions();
+  }, []);
   return (
     <DashboardLayout>
-      
-    </DashboardLayout>
-  )
-}
+      <div className="container mx-auto pt-4 pb-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-7 pt-1 pb-6 px-4 md:px-0">
+          {session?.map((data, index) => (
+            <SummaryCard
+              key={data?._id}
+              colors={CARD_BG[index % CARD_BG.length]}
+              role={data?.role || ""}
+              topicsToFoucs={data?.topicsToFoucs || ""}
+              experience={data?.experience || "-"}
+              questions={data?.questions?.length || "-"}
+              description={data?.description || ""}
+              lastUpdated={
+                data?.updatedAt
+                  ? moment(data.updatedAt).format("Do MMM YYYY")
+                  : ""
+              }
+              onSelect={() => navigate(`/interview-prep/${data?._id}`)}
+              onDelete={() => setOpenDeleteAlert({ open: true, data })}
+            />
+          ))}
+        </div>
 
-export default Dashboard
+        <button
+          className="h-12 md:h-12 flex items-center justify-center gap-3 bg-linear-to-r from-[#FF9324] to-[#e99a4b] text-sm font-semibold text-white px-7 py-2.5 rounded-full hover:bg-black hover:text-white transition-colors cursor-pointer hover:shadow-2xl hover:shadow-orange-300 fixed bottom-10 md:bottom-20 right-10 md:right-20"
+          onClick={() => setOpenCreateModel(true)}
+        >
+          <LuPlus className="text-2xl text-white" />
+          Add New
+        </button>
+      </div>
+    </DashboardLayout>
+  );
+};
+
+export default Dashboard;
