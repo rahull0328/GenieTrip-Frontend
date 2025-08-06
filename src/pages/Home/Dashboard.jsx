@@ -9,6 +9,7 @@ import { CARD_BG } from "../../utils/data";
 import moment from "moment";
 import SummaryCard from "../../components/Cards/SummaryCard";
 import CreateSessionForm from "../Shared/CreateSessionForm";
+import Modal from "../../components/Loader/Modal";
 
 const Dashboard = () => {
   const navigate = useNavigate();
