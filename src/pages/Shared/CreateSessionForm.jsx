@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Input from "../../components/Input/Input"
+import SpinnerLoader from '../../components/Loader/SpinnerLoader'
 
 const CreateSessionForm = () => {
   const [formData, setFormData] = useState({
@@ -83,7 +84,7 @@ const CreateSessionForm = () => {
           className='btn-primary w-full mt-2'
           disabled={isLoading}
         >
-          {isLoading && <SpinnerLoader />}Create Session
+          {!isLoading && <SpinnerLoader />}Create Session
         </button>
       </form>
     </div>
