@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Input from "../../components/Input/Input"
 import SpinnerLoader from '../../components/Loader/SpinnerLoader'
+import axiosInstance from '../../utils/axios'
+import { API_PATHS } from '../../utils/apiPaths'
 
 const CreateSessionForm = () => {
   const [formData, setFormData] = useState({
@@ -34,6 +36,38 @@ const CreateSessionForm = () => {
     }
 
     setError("")
+    setIsLoading(true)
+
+    try {
+      const aiResponse = await axiosInstance.post(
+        API_PATHS.AI.GENERATE_QUESTIONS,
+        {
+          role,
+          experience,
+          topicsToFocus,
+          numberOfQuestions: 10,
+        }
+      )
+
+      const generatedQuestions = aiResponse.data
+
+      const response = await axiosInstance.post(API_PATHS.SESSION.CREATE, {
+        ...formData,
+        questions: generatedQuestions,
+      })
+
+      if(response.data?.session?._id) {
+        navigate(`/interview-prep/${response.data?.session?._id}`)
+      }
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        setError(error.response.data.message)
+      } else {
+        setError("Something went wrong. Please try again.")
+      }
+    } finally {
+      setIsLoading(false)
+    }
   }
   return (
     <div className='w-[90vw] md:w-[35vw] p-7 flex flex-col justify-center'>
@@ -44,7 +78,7 @@ const CreateSessionForm = () => {
         Fill out a few quick details and unlock your personalized set of interview questions!
       </p>
 
-      <form className='flex flex-col gap-3'>
+      <form onSubmit={handleCreateSession} className='flex flex-col gap-3'>
         <Input 
           value={formData.role}
           onChange={({target}) => handleChange("role", target.value)}
@@ -84,7 +118,7 @@ const CreateSessionForm = () => {
           className='btn-primary w-full mt-2'
           disabled={isLoading}
         >
-          {!isLoading && <SpinnerLoader />}Create Session
+          {isLoading && <SpinnerLoader />}Create Session
         </button>
       </form>
     </div>

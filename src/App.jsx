@@ -8,6 +8,7 @@ import Register from "./pages/Auth/Register";
 import LandingPage from './pages/Shared/LandingPage';
 import Dashboard from './pages/Home/Dashboard';
 import UserProvider from './context/userContext';
+import InterviewPrep from './pages/InterviewPrep/InterviewPrep';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
             <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/interview-prep/:sessionId' element={<InterviewPrep />} />
           </Routes>
         </Router>
 
