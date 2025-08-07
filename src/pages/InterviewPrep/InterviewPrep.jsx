@@ -42,7 +42,21 @@ const InterviewPrep = () => {
   const generateConceptExplanation = async (question) => {};
 
   //pin question
-  const toggleQuestionPinStatus = async (questionId) => {};
+  const toggleQuestionPinStatus = async (questionId) => {
+    try {
+        const response = await axiosInstance.post(
+            API_PATHS.QUESTION.PIN(questionId)
+        )
+
+        console.log(response)
+
+        if(response.data && response.data.question) {
+            fetchSessionDetailsById()
+        }
+    } catch (error) {
+        console.error("error: ", error)
+    }
+  };
 
   //add more questions to a session
   const uploadMoreQuestions = async () => {};
@@ -69,7 +83,7 @@ const InterviewPrep = () => {
         }
       />
 
-      <div className="container mx-auto pt-4 pb-4 ox-4 md:px-4">
+      <div className="container mx-auto pt-4 pb-4 ox-4 md:px-10">
         <h2 className="text-lg font-semibold text-black">Interview Q&A</h2>
 
         <div className="grid grid-cols-12 gap-4 mt-5 mb-10">

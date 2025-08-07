@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { LuChevronDown, LuPin, LuPinOff, LuSparkle } from "react-icons/lu";
+import AIResponsePreview from "../../pages/InterviewPrep/AIResponsePreview";
 
 const QuestionCard = ({
   question,
@@ -43,36 +44,36 @@ const QuestionCard = ({
                 className={`flex ${isExpanded ? "md:flex" : "md:hidden group-hover:flex"}`}
             >
                 <button
-                    className="flex items-center gap-2 text-xs text-indigo-800 font-medium bg-indigo-50 px-3 py-1"
+                    className="flex items-center gap-2 text-xs text-indigo-800 font-medium bg-indigo-50 px-3 py-1 mr-2 rounded text-nowrap border border-indigo-50 hover:border-indigo-200 cursor-pointer"
                     onClick={onTogglePin}
                 >
                     {
                         isPinned ? (
-                            <LuPinOff className="" />
+                            <LuPinOff className="text-xs" />
                         ) : (
-                            <LuPin className="" />
+                            <LuPin className="text-xs" />
                         )
                     }
                 </button>
 
                 <button
-                    className=""
+                    className="flex items-center gap-2 text-xs text-cyan-800 font-medium bg-cyan-50 px-3 py-1 mr-2 rounded text-nowrap border border-cyan-50 hover:border-cyan-200 cursor-pointer"
                     onClick={() => {
                         setIsExpanded(true)
                         onLearnMore()
                     }}
                 >
                     <LuSparkle />
-                    <span className="">Learn More...</span>
+                    <span className="hidden md:block">Learn More...</span>
                 </button>
             </div>
 
             <button
-                className=""
+                className="text-gray-400 hover:text-gray-500 cursor-pointer"
                 onClick={toggleExpand}
             >
                 <LuChevronDown 
-                    size={10} 
+                    size={20} 
                     className={`transform transition-transform duration-300 ${
                         isExpanded ? "rotate-180" : ""
                     }`} 
@@ -82,14 +83,14 @@ const QuestionCard = ({
       </div>
 
       <div
-        className=""
+        className="overflow-hidden transition-all duration-300 ease-in-out"
         style={{maxHeight: `${height}px`}}
       >
         <div
             ref={contentRef}
-            className=""
+            className="mt-4 text-gray-700 bg-gray-50 px-5 py-3 rounded-lg"
         >
-
+            <AIResponsePreview content={answer} />
         </div>
       </div>
     </div>
