@@ -64,7 +64,7 @@ const AIResponsePreview = ({content}) => {
                     h4({children}) {
                         return <h4 className='text-base font-bold mt-4 mb-2'>{children}</h4>
                     },
-                    a({children}) {
+                    a({children, href}) {
                         return <a href={href} className='text-blue-600 hover:underline'>{children}</a>
                     },
                     table({children}) {
